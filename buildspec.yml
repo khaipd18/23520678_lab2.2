@@ -1,0 +1,30 @@
+version: 0.2
+
+env:
+  variables:
+    # CHÚ Ý: Thay thế bằng tên S3 Bucket thực tế của bạn trên AWS để chứa nested templates
+    S3_BUCKET: "ten-s3-bucket-cua-ban"
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.x
+    commands:
+      - echo "Installing cfn-lint and taskcat..."
+      - pip install cfn-lint taskcat
+  pre_build:
+    commands:
+      - echo "Running cfn-lint to validate templates syntax..."
+      - cfn-lint templates/*.yaml
+  build:
+    commands:
+      - echo "Running taskcat integration test..."
+      - taskcat test run
+  post_build:
+    commands:
+      - echo "Packaging CloudFormation templates and uploading child templates to S3..."
+      - aws cloudformation package --template-file templates/main.yaml --s3-bucket $S3_BUCKET --output-template-file packaged-main.yaml
+
+artifacts:
+  files:
+    - packaged-main.yaml
