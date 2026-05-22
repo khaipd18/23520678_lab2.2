@@ -1,0 +1,10 @@
+project:
+  name: aws-infra-nested-lab
+  regions:
+    - ap-southeast-1
+tests:
+  default:
+    template: templates/main.yaml
+    parameters:
+      EnvironmentName: TaskcatTestEnv
+      InstanceType: t2.micro
