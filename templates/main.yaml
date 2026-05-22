@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Main Root Stack - Calls Network and Compute Modules (Nested Stacks)'
+
+Parameters:
+  EnvironmentName:
+    Type: String
+    Default: LabPipeline
+  InstanceType:
+    Type: String
+    Default: t2.micro
+
+Resources:
+  NetworkStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: network.yaml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+
+  ComputeStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: compute.yaml
+      Parameters:
+        EnvironmentName: !Ref EnvironmentName
+        VpcId: !GetAtt NetworkStack.Outputs.VpcId
+        PrivateSubnetId: !GetAtt NetworkStack.Outputs.PrivateSubnetId
+        InstanceType: !Ref InstanceType
+
+Outputs:
+  VpcId:
+    Value: !GetAtt NetworkStack.Outputs.VpcId
+    Description: 'VPC ID of the deployed infrastructure'
