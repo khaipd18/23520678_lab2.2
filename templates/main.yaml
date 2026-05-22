@@ -26,7 +26,7 @@ Resources:
         VpcId: !GetAtt NetworkStack.Outputs.VpcId
         PrivateSubnetId: !GetAtt NetworkStack.Outputs.PrivateSubnetId
         InstanceType: !Ref InstanceType
-
+# Fix
 Outputs:
   VpcId:
     Value: !GetAtt NetworkStack.Outputs.VpcId
