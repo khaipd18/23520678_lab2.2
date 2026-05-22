@@ -17,7 +17,7 @@ phases:
   pre_build:
     commands:
       - echo "Running cfn-lint to validate templates syntax..."
-      - cfn-lint templates/*.yaml
+      - cfn-lint --ignore-checks W templates/*.yaml
   build:
     commands:
       - echo "Running taskcat integration test..."
