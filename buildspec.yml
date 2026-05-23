@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    S3_BUCKET: "khaipd18-lab2-artifacts-2026"
+    S3_BUCKET: "lab2-02-khaipd18"
 
 phases:
   install:
