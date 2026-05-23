@@ -2,8 +2,7 @@ version: 0.2
 
 env:
   variables:
-    # CHÚ Ý: Thay thế bằng tên S3 Bucket thực tế của bạn trên AWS để chứa nested templates
-    S3_BUCKET: "ten-s3-bucket-cua-ban"
+    S3_BUCKET: "lab2-02-khaipd18"
 
 phases:
   install:
@@ -16,8 +15,12 @@ phases:
       - pip install cfn-lint taskcat
   pre_build:
     commands:
+      - echo "Checking files before linting..."
+      - ls -la templates/
+      - cat templates/main.yaml
       - echo "Running cfn-lint to validate templates syntax..."
-      - cfn-lint --ignore-checks W templates/main.yaml templates/network.yaml templates/compute.yaml
+      - cfn-lint --ignore-checks W templates/*.yaml
+      
   build:
     commands:
       - echo "Running taskcat integration test..."
